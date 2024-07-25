@@ -14,6 +14,14 @@ func main() {
 	}
 	defer syscall.Close(fd)
 
+	// Set reuse address option
+	// reuseaddr := 1
+	// err = syscall.SetsockoptInt(fd, syscall.SOL_SOCKET, syscall.SO_REUSEADDR, reuseaddr)
+	// if err != nil {
+	// 	fmt.Println("Error setting reuseaddr:", err)
+	// 	os.Exit(1)
+	// }
+
 	// Bind the socket to an address
 	addr := &syscall.SockaddrInet4{Port: 8080}
 	err = syscall.Bind(fd, addr)
@@ -60,4 +68,7 @@ func main() {
 		fmt.Println("Error sending to client:", err)
 		return
 	}
+
+	// close port
+	syscall.Close(conn)
 }
